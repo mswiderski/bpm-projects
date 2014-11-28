@@ -17,16 +17,13 @@ public class PerformMigrationHandler implements WorkItemHandler {
 	@SuppressWarnings("unchecked")
 	public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
 		ProcessData data = (ProcessData) workItem.getParameter("in_processdata");
-//		List<NodeMapping> nodeMapping = (List<NodeMapping>) workItem.getParameter("in_nodemapping");
 		List<NodeMapping> nodeMapping = new ArrayList<NodeMapping>();
 		Map<String, String>[] inNodeMapping = (Map<String, String>[]) workItem.getParameter("in_nodemapping");
 		
 		for (Map<String, String> inputMapping : inNodeMapping) {
-			nodeMapping.add(new NodeMapping(inputMapping.get("mapping_sourceNodeId"), inputMapping.get("mapping_targetNodeId")));
+			nodeMapping.add(new NodeMapping(inputMapping.get("nodemap_sourceNodeId"), inputMapping.get("nodemap_targetNodeId")));
 		}
-		
-		
-		
+
 		String outcome = MigrationManager.migrate(data, nodeMapping);
 		
 		Map<String, Object> results = new HashMap<String, Object>();
