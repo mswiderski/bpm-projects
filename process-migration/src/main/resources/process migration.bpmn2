@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmn20="http://www.omg.org/bpmn20" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" xmlns="http://www.jboss.org/drools" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd" id="Definition" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.omg.org/bpmn20" typeLanguage="http://www.java.com/javaTypes">
-  <bpmn2:itemDefinition id="ItemDefinition_1" structureRef="ObjectDataType"/>
-  <bpmn2:itemDefinition id="ItemDefinition_2" structureRef="BooleanDataType"/>
-  <bpmn2:itemDefinition id="ItemDefinition_3" structureRef="StringDataType"/>
   <bpmn2:itemDefinition id="ItemDefinition_4" structureRef="String"/>
   <bpmn2:itemDefinition id="ItemDefinition_5" structureRef="Integer"/>
   <bpmn2:itemDefinition id="ItemDefinition_6" structureRef="Boolean"/>
@@ -26,7 +23,7 @@
       <bpmn2:outgoing>bpmn20:SequenceFlow_1</bpmn2:outgoing>
     </bpmn2:startEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_1" drools:priority="1" name="" sourceRef="processStartEvent" targetRef="Task_1"/>
-    <bpmn2:task id="Task_1" drools:taskName="Validate" drools:displayName="Validate" drools:icon="defaultservicenodeicon.png" name="Validate">
+    <bpmn2:task id="Task_1" drools:taskName="Validate" name="Validate">
       <bpmn2:incoming>bpmn20:SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_2</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_InputOutputSpecification_2">
@@ -65,7 +62,7 @@
     <bpmn2:scriptTask id="ScriptTask_1" name="Process data invalid" scriptFormat="http://www.java.com/java">
       <bpmn2:incoming>bpmn20:SequenceFlow_3</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_4</bpmn2:outgoing>
-      <bpmn2:script>System.out.println(&quot;Process data + processData + &quot; is invalid&quot;);</bpmn2:script>
+      <bpmn2:script>System.out.println(&quot;Process data &quot; + processData + &quot; is invalid&quot;);</bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:sequenceFlow id="SequenceFlow_4" drools:priority="1" name="" sourceRef="ScriptTask_1" targetRef="EndEvent_1"/>
     <bpmn2:endEvent id="EndEvent_1" name="">
@@ -77,7 +74,7 @@
       <bpmn2:outgoing>bpmn20:SequenceFlow_8</bpmn2:outgoing>
       <bpmn2:outgoing>bpmn20:SequenceFlow_10</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
-    <bpmn2:task id="Task_3" drools:taskName="CollectNodeInfo" drools:displayName="CollectNodeInfo" drools:icon="defaultservicenodeicon.png" name="CollectNodeInfo">
+    <bpmn2:task id="Task_3" drools:taskName="CollectNodeInfo" name="CollectNodeInfo">
       <bpmn2:incoming>bpmn20:SequenceFlow_8</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_11</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_InputOutputSpecification_6">
@@ -153,6 +150,10 @@
       </bpmn2:ioSpecification>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_26">
         <bpmn2:targetRef>_DataInput_26</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_2">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_6">SelectNodeMapping</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_5">_DataInput_26</bpmn2:to>
+        </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_DataInputAssociation_27">
         <bpmn2:targetRef>_DataInput_27</bpmn2:targetRef>
@@ -195,13 +196,13 @@
       </bpmn2:potentialOwner>
     </bpmn2:userTask>
     <bpmn2:sequenceFlow id="SequenceFlow_12" drools:priority="1" name="" sourceRef="UserTask_2" targetRef="ExclusiveGateway_3"/>
-    <bpmn2:exclusiveGateway id="ExclusiveGateway_3" name="" gatewayDirection="Diverging">
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_3" name="" gatewayDirection="Converging">
       <bpmn2:incoming>bpmn20:SequenceFlow_10</bpmn2:incoming>
       <bpmn2:incoming>bpmn20:SequenceFlow_12</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_9</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_9" drools:priority="1" name="" sourceRef="ExclusiveGateway_3" targetRef="Task_2"/>
-    <bpmn2:task id="Task_2" drools:taskName="PerformMigration" drools:displayName="PerformMigration" drools:icon="defaultservicenodeicon.png" name="PerformMigration">
+    <bpmn2:task id="Task_2" drools:taskName="PerformMigration" name="PerformMigration">
       <bpmn2:incoming>bpmn20:SequenceFlow_9</bpmn2:incoming>
       <bpmn2:outgoing>bpmn20:SequenceFlow_6</bpmn2:outgoing>
       <bpmn2:ioSpecification id="_InputOutputSpecification_3">
