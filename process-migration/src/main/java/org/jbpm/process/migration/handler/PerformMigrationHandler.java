@@ -1,5 +1,6 @@
 package org.jbpm.process.migration.handler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,15 @@ public class PerformMigrationHandler implements WorkItemHandler {
 	@SuppressWarnings("unchecked")
 	public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
 		ProcessData data = (ProcessData) workItem.getParameter("in_processdata");
-		List<NodeMapping> nodeMapping = (List<NodeMapping>) workItem.getParameter("in_nodemapping");
+//		List<NodeMapping> nodeMapping = (List<NodeMapping>) workItem.getParameter("in_nodemapping");
+		List<NodeMapping> nodeMapping = new ArrayList<NodeMapping>();
+		Map<String, Map<String, String>> inNodeMapping = (Map<String, Map<String, String>>) workItem.getParameter("in_nodemapping");
+		
+		for (Map<String, String> inputMapping : inNodeMapping.values()) {
+			nodeMapping.add(new NodeMapping(inputMapping.get("mapping_sourceNodeId"), inputMapping.get("mapping_targetNodeId")));
+		}
+		
+		
 		
 		String outcome = MigrationManager.migrate(data, nodeMapping);
 		

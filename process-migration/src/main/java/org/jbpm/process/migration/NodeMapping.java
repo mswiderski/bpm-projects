@@ -4,16 +4,19 @@ import java.io.Serializable;
 
 public class NodeMapping implements Serializable {
 
-	@Override
-	public String toString() {
-		return "NodeMapping [sourceNodeId=" + sourceNodeId + ", targetNodeId="
-				+ targetNodeId + "]";
-	}
 	private static final long serialVersionUID = 1682833896996142469L;
 	
 	private String sourceNodeId;
 	private String targetNodeId;
 	
+	public NodeMapping() {
+		
+	}
+	
+	public NodeMapping(String sourceNodeId, String targetNodeId) {
+		this.sourceNodeId = sourceNodeId;
+		this.targetNodeId = targetNodeId;
+	}
 	public String getSourceNodeId() {
 		return sourceNodeId;
 	}
