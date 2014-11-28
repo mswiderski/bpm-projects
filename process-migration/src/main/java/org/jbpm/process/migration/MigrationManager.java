@@ -256,7 +256,7 @@ public class MigrationManager {
     		return;
     	}
         for (NodeInstance nodeInstance: nodeInstanceContainer.getNodeInstances()) {
-            String oldNodeId = ((NodeImpl) ((org.jbpm.workflow.instance.NodeInstance) nodeInstance).getNode()).getUniqueId();
+            String oldNodeId = (String) ((NodeImpl) ((org.jbpm.workflow.instance.NodeInstance) nodeInstance).getNode()).getMetaData().get("UniqueId");
             String newNodeId = nodeMapping.get(oldNodeId);
             if (newNodeId == null) {
                 continue;

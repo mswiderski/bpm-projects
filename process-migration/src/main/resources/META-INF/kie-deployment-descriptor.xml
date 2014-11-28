@@ -31,6 +31,8 @@
     </work-item-handlers>
     <environment-entries/>
     <configurations/>
-    <required-roles/>
+    <required-roles>
+      <required-role>admin</required-role>
+    </required-roles>
     <remoteable-classes/>
 </deployment-descriptor>
