@@ -13,7 +13,6 @@
       <drools:import name="org.jbpm.process.migration.ProcessData"/>
       <drools:import name="org.jbpm.process.migration.NodeInformation"/>
       <drools:import name="java.util.List"/>
-      <drools:global identifier="globalVar1"/>
     </bpmn2:extensionElements>
     <bpmn2:property id="processData" itemSubjectRef="ItemDefinition_7"/>
     <bpmn2:property id="valid" itemSubjectRef="ItemDefinition_6"/>
