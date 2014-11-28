@@ -209,10 +209,10 @@ public class MigrationManager {
 			
 			current.destroy();
 			tobe.destroy();
-			outcomeBuffer.append("Migration of " + processData.getProcessInstanceId() + " completed successfully to process " + processData.getToProcessId());
+			outcomeBuffer.append("Migration of process instance (" + processData.getProcessInstanceId() + ") completed successfully to process " + processData.getToProcessId());
 		} catch (Exception e) {
-			outcomeBuffer.append("Migration of " + processData.getProcessInstanceId() + " failed due to " + e.getMessage());
-			logger.error("Migration of {} failed", processData.getProcessInstanceId(), e);
+			outcomeBuffer.append("Migration of process instance (" + processData.getProcessInstanceId() + ") failed due to " + e.getMessage());
+			logger.error("Migration of process instance ({}) failed", processData.getProcessInstanceId(), e);
 		}
 		
 		return outcomeBuffer.toString();
@@ -309,6 +309,9 @@ public class MigrationManager {
 			if (node instanceof CompositeNode) {
 				collectNodeInformation(((CompositeNode) node), nodes);
 			} else {
+				if (node.getName() == null || node.getName().trim().isEmpty()) {
+					continue;
+				}
 				nodes.add(new NodeInformation(node.getName(), (String) node.getMetaData().get("UniqueId"), String.valueOf(node.getId())));
 			}
 		}
