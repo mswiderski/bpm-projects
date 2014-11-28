@@ -19,9 +19,9 @@ public class PerformMigrationHandler implements WorkItemHandler {
 		ProcessData data = (ProcessData) workItem.getParameter("in_processdata");
 //		List<NodeMapping> nodeMapping = (List<NodeMapping>) workItem.getParameter("in_nodemapping");
 		List<NodeMapping> nodeMapping = new ArrayList<NodeMapping>();
-		Map<String, Map<String, String>> inNodeMapping = (Map<String, Map<String, String>>) workItem.getParameter("in_nodemapping");
+		Map<String, String>[] inNodeMapping = (Map<String, String>[]) workItem.getParameter("in_nodemapping");
 		
-		for (Map<String, String> inputMapping : inNodeMapping.values()) {
+		for (Map<String, String> inputMapping : inNodeMapping) {
 			nodeMapping.add(new NodeMapping(inputMapping.get("mapping_sourceNodeId"), inputMapping.get("mapping_targetNodeId")));
 		}
 		
