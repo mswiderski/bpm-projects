@@ -1,0 +1,97 @@
+import org.drools.core.process.core.datatype.impl.type.StringDataType;
+import org.drools.core.process.core.datatype.impl.type.ObjectDataType;
+import org.drools.core.process.core.datatype.impl.type.BooleanDataType;
+
+[
+  [
+    "name" : "Email",
+    "parameters" : [
+      "From" : new StringDataType(),
+      "To" : new StringDataType(),
+      "Subject" : new StringDataType(),
+      "Body" : new StringDataType()
+    ],
+    "displayName" : "Email",
+    "icon" : "defaultemailicon.gif"
+  ],
+
+  [
+    "name" : "Log",
+    "parameters" : [
+      "Message" : new StringDataType()
+    ],
+    "displayName" : "Log",
+    "icon" : "defaultlogicon.gif"
+  ],
+
+  [
+    "name" : "WebService",
+    "parameters" : [
+        "Url" : new StringDataType(),
+         "Namespace" : new StringDataType(),
+         "Interface" : new StringDataType(),
+         "Operation" : new StringDataType(),
+         "Parameter" : new StringDataType(),
+         "Endpoint" : new StringDataType(),
+         "Mode" : new StringDataType()
+    ],
+    "results" : [
+        "Result" : new ObjectDataType(),
+    ],
+    "displayName" : "WS",
+    "icon" : "defaultservicenodeicon.png"
+  ],
+
+  [
+    "name" : "Rest",
+    "parameters" : [
+        "Url" : new StringDataType(),
+        "Method" : new StringDataType(),
+        "ConnectTimeout" : new StringDataType(),
+        "ReadTimeout" : new StringDataType(),
+        "Username" : new StringDataType(),
+        "Password" : new StringDataType()
+    ],
+    "results" : [
+        "Result" : new ObjectDataType(),
+    ],
+    "displayName" : "REST",
+    "icon" : "defaultservicenodeicon.png"
+  ],
+  [
+    "name" : "Validate",
+    "parameters" : [
+      "in_processdata" : new ObjectDataType()
+    ],
+    "results" : [
+        "out_valid" : new BooleanDataType(),
+    ],
+    "displayName" : "Validate",
+    "icon" : "defaultservicenodeicon.png"
+  ],
+  [
+    "name" : "PerformMigration",
+    "parameters" : [
+      "in_processdata" : new ObjectDataType(),
+      "in_nodemapping" : new ObjectDataType()
+    ],
+    "results" : [
+        "out_outcome" : new StringDataType(),
+    ],
+    "displayName" : "PerformMigration",
+    "icon" : "defaultservicenodeicon.png"
+  ],
+  [
+    "name" : "CollectNodeInfo",
+    "parameters" : [
+      "in_processdata" : new ObjectDataType()
+    ],
+    "results" : [
+        "out_active" : new ObjectDataType(),
+        "out_available" : new ObjectDataType(),
+    ],
+    "displayName" : "CollectNodeInfo",
+    "icon" : "defaultservicenodeicon.png"
+  ]
+
+]

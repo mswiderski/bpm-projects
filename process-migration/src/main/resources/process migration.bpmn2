@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmn20="http://www.omg.org/bpmn20" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" xmlns="http://www.jboss.org/drools" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.jboss.org/drools drools.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd" id="Definition" expressionLanguage="http://www.mvel.org/2.0" targetNamespace="http://www.omg.org/bpmn20" typeLanguage="http://www.java.com/javaTypes">
+  <bpmn2:itemDefinition id="ItemDefinition_1" structureRef="ObjectDataType"/>
+  <bpmn2:itemDefinition id="ItemDefinition_2" structureRef="BooleanDataType"/>
+  <bpmn2:itemDefinition id="ItemDefinition_3" structureRef="StringDataType"/>
+  <bpmn2:itemDefinition id="ItemDefinition_4" structureRef="String"/>
+  <bpmn2:itemDefinition id="ItemDefinition_5" structureRef="Integer"/>
+  <bpmn2:itemDefinition id="ItemDefinition_6" structureRef="Boolean"/>
+  <bpmn2:itemDefinition id="ItemDefinition_7" structureRef="org.jbpm.process.migration.ProcessData"/>
+  <bpmn2:itemDefinition id="ItemDefinition_8" structureRef="java.util.List"/>
+  <bpmn2:process id="process-migration.processmigration" drools:version="1.0" drools:packageName="org.jbpm" drools:adHoc="false" name="Process instance migration" isExecutable="true">
+    <bpmn2:extensionElements>
+      <drools:import name="org.jbpm.process.migration.ProcessData"/>
+      <drools:import name="org.jbpm.process.migration.NodeInformation"/>
+      <drools:import name="java.util.List"/>
+      <drools:global identifier="globalVar1"/>
+    </bpmn2:extensionElements>
+    <bpmn2:property id="processData" itemSubjectRef="ItemDefinition_7"/>
+    <bpmn2:property id="valid" itemSubjectRef="ItemDefinition_6"/>
+    <bpmn2:property id="outcome" itemSubjectRef="ItemDefinition_4"/>
+    <bpmn2:property id="initiator" itemSubjectRef="ItemDefinition_4"/>
+    <bpmn2:property id="activeNodes" itemSubjectRef="ItemDefinition_8"/>
+    <bpmn2:property id="availableNodes" itemSubjectRef="ItemDefinition_8"/>
+    <bpmn2:property id="nodeMapping" itemSubjectRef="ItemDefinition_8"/>
+    <bpmn2:property id="mapNodes" itemSubjectRef="ItemDefinition_6"/>
+    <bpmn2:startEvent id="processStartEvent" drools:bgcolor="#9acd32" drools:selectable="true" name="">
+      <bpmn2:outgoing>bpmn20:SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" drools:priority="1" name="" sourceRef="processStartEvent" targetRef="Task_1"/>
+    <bpmn2:task id="Task_1" drools:taskName="Validate" drools:displayName="Validate" drools:icon="defaultservicenodeicon.png" name="Validate">
+      <bpmn2:incoming>bpmn20:SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_2">
+        <bpmn2:dataInput id="_DataInput_2" itemSubjectRef="ItemDefinition_7" name="in_processdata"/>
+        <bpmn2:dataOutput id="_DataOutput_2" itemSubjectRef="ItemDefinition_6" name="out_valid"/>
+        <bpmn2:inputSet id="_InputSet_2"/>
+        <bpmn2:inputSet id="_InputSet_3" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_2</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="_OutputSet_2"/>
+        <bpmn2:outputSet id="_OutputSet_3" name="New Output Set">
+          <bpmn2:dataOutputRefs>_DataOutput_2</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_2">
+        <bpmn2:sourceRef>processData</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_2</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_1">
+        <bpmn2:sourceRef>_DataOutput_2</bpmn2:sourceRef>
+        <bpmn2:targetRef>valid</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" drools:priority="1" name="" sourceRef="Task_1" targetRef="ExclusiveGateway_1"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_1" name="" gatewayDirection="Diverging">
+      <bpmn2:incoming>bpmn20:SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_3</bpmn2:outgoing>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_5</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" drools:priority="1" name="" sourceRef="ExclusiveGateway_1" targetRef="ScriptTask_1">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_17" language="http://www.java.com/java">return valid == false;</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_5" drools:priority="1" name="" sourceRef="ExclusiveGateway_1" targetRef="ExclusiveGateway_2">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_16" language="http://www.java.com/java">return valid == true;</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:scriptTask id="ScriptTask_1" name="Process data invalid" scriptFormat="http://www.java.com/java">
+      <bpmn2:incoming>bpmn20:SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_4</bpmn2:outgoing>
+      <bpmn2:script>System.out.println(&quot;Process data + processData + &quot; is invalid&quot;);</bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_4" drools:priority="1" name="" sourceRef="ScriptTask_1" targetRef="EndEvent_1"/>
+    <bpmn2:endEvent id="EndEvent_1" name="">
+      <bpmn2:incoming>bpmn20:SequenceFlow_4</bpmn2:incoming>
+      <bpmn2:terminateEventDefinition id="TerminateEventDefinition_1"/>
+    </bpmn2:endEvent>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_2" name="" gatewayDirection="Diverging">
+      <bpmn2:incoming>bpmn20:SequenceFlow_5</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_8</bpmn2:outgoing>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_10</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:task id="Task_3" drools:taskName="CollectNodeInfo" drools:displayName="CollectNodeInfo" drools:icon="defaultservicenodeicon.png" name="CollectNodeInfo">
+      <bpmn2:incoming>bpmn20:SequenceFlow_8</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_11</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_6">
+        <bpmn2:dataInput id="_DataInput_18" itemSubjectRef="ItemDefinition_7" name="in_processdata"/>
+        <bpmn2:dataOutput id="out_active" itemSubjectRef="ItemDefinition_8" name="out_active"/>
+        <bpmn2:dataOutput id="out_available" itemSubjectRef="ItemDefinition_8" name="out_available"/>
+        <bpmn2:inputSet id="_InputSet_10"/>
+        <bpmn2:inputSet id="_InputSet_11" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_18</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="_OutputSet_10"/>
+        <bpmn2:outputSet id="_OutputSet_11" name="New Output Set">
+          <bpmn2:dataOutputRefs>out_active</bpmn2:dataOutputRefs>
+          <bpmn2:dataOutputRefs>out_available</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_18">
+        <bpmn2:sourceRef>processData</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_18</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_4">
+        <bpmn2:sourceRef>out_active</bpmn2:sourceRef>
+        <bpmn2:targetRef>activeNodes</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_13">
+        <bpmn2:sourceRef>out_available</bpmn2:sourceRef>
+        <bpmn2:targetRef>availableNodes</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_8" drools:priority="1" name="" sourceRef="ExclusiveGateway_2" targetRef="Task_3">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_3" language="http://www.java.com/java">return mapNodes == true;</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" drools:priority="1" name="" sourceRef="ExclusiveGateway_2" targetRef="ExclusiveGateway_3">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression" id="FormalExpression_4" language="http://www.java.com/java">return mapNodes == false;</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:endEvent id="EndEvent_2" name="">
+      <bpmn2:incoming>bpmn20:SequenceFlow_7</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_11" drools:priority="1" name="" sourceRef="Task_3" targetRef="UserTask_2"/>
+    <bpmn2:userTask id="UserTask_2" name="Select node mapping">
+      <bpmn2:incoming>bpmn20:SequenceFlow_11</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_12</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_8">
+        <bpmn2:dataInput id="_DataInput_26" itemSubjectRef="ItemDefinition_4" name="TaskName"/>
+        <bpmn2:dataInput id="_DataInput_27" itemSubjectRef="ItemDefinition_5" name="Priority"/>
+        <bpmn2:dataInput id="_DataInput_28" itemSubjectRef="ItemDefinition_4" name="Comment"/>
+        <bpmn2:dataInput id="_DataInput_29" itemSubjectRef="ItemDefinition_4" name="GroupId"/>
+        <bpmn2:dataInput id="_DataInput_30" itemSubjectRef="ItemDefinition_6" name="Skippable"/>
+        <bpmn2:dataInput id="_DataInput_31" itemSubjectRef="ItemDefinition_4" name="Content"/>
+        <bpmn2:dataInput id="_DataInput_32" itemSubjectRef="ItemDefinition_4" name="Locale"/>
+        <bpmn2:dataInput id="in_activeNodes" itemSubjectRef="ItemDefinition_8" name="in_activeNodes"/>
+        <bpmn2:dataInput id="in_availableNodes" itemSubjectRef="ItemDefinition_8" name="in_availableNodes"/>
+        <bpmn2:dataInput id="in_processData" itemSubjectRef="ItemDefinition_7" name="in_processData"/>
+        <bpmn2:dataOutput id="out_mapping" itemSubjectRef="ItemDefinition_8" name="out_mapping"/>
+        <bpmn2:inputSet id="_InputSet_14">
+          <bpmn2:dataInputRefs>in_activeNodes</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>in_availableNodes</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>in_processData</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:inputSet id="_InputSet_15" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_26</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_27</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_28</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_29</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_30</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_31</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_32</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="_OutputSet_14">
+          <bpmn2:dataOutputRefs>out_mapping</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+        <bpmn2:outputSet id="_OutputSet_15" name="Output Set"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_26">
+        <bpmn2:targetRef>_DataInput_26</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_27">
+        <bpmn2:targetRef>_DataInput_27</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_28">
+        <bpmn2:targetRef>_DataInput_28</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_29">
+        <bpmn2:targetRef>_DataInput_29</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_30">
+        <bpmn2:targetRef>_DataInput_30</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_31">
+        <bpmn2:targetRef>_DataInput_31</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_32">
+        <bpmn2:targetRef>_DataInput_32</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_2">
+        <bpmn2:sourceRef>activeNodes</bpmn2:sourceRef>
+        <bpmn2:targetRef>in_activeNodes</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_3">
+        <bpmn2:sourceRef>availableNodes</bpmn2:sourceRef>
+        <bpmn2:targetRef>in_availableNodes</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_4">
+        <bpmn2:sourceRef>processData</bpmn2:sourceRef>
+        <bpmn2:targetRef>in_processData</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_3">
+        <bpmn2:sourceRef>out_mapping</bpmn2:sourceRef>
+        <bpmn2:targetRef>nodeMapping</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:potentialOwner id="PotentialOwner_2">
+        <bpmn2:resourceAssignmentExpression id="ResourceAssignmentExpression_2">
+          <bpmn2:formalExpression id="FormalExpression_22">#{initiator}</bpmn2:formalExpression>
+        </bpmn2:resourceAssignmentExpression>
+      </bpmn2:potentialOwner>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_12" drools:priority="1" name="" sourceRef="UserTask_2" targetRef="ExclusiveGateway_3"/>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_3" name="" gatewayDirection="Diverging">
+      <bpmn2:incoming>bpmn20:SequenceFlow_10</bpmn2:incoming>
+      <bpmn2:incoming>bpmn20:SequenceFlow_12</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_9</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" drools:priority="1" name="" sourceRef="ExclusiveGateway_3" targetRef="Task_2"/>
+    <bpmn2:task id="Task_2" drools:taskName="PerformMigration" drools:displayName="PerformMigration" drools:icon="defaultservicenodeicon.png" name="PerformMigration">
+      <bpmn2:incoming>bpmn20:SequenceFlow_9</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_6</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_3">
+        <bpmn2:dataInput id="_DataInput_3" itemSubjectRef="ItemDefinition_7" name="in_processdata"/>
+        <bpmn2:dataInput id="in_nodemapping" itemSubjectRef="ItemDefinition_8" name="in_nodemapping"/>
+        <bpmn2:dataOutput id="_DataOutput_3" itemSubjectRef="ItemDefinition_4" name="out_outcome"/>
+        <bpmn2:inputSet id="_InputSet_4">
+          <bpmn2:dataInputRefs>in_nodemapping</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:inputSet id="_InputSet_5" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_3</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="_OutputSet_4"/>
+        <bpmn2:outputSet id="_OutputSet_5" name="New Output Set">
+          <bpmn2:dataOutputRefs>_DataOutput_3</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_3">
+        <bpmn2:sourceRef>processData</bpmn2:sourceRef>
+        <bpmn2:targetRef>_DataInput_3</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_5">
+        <bpmn2:sourceRef>nodeMapping</bpmn2:sourceRef>
+        <bpmn2:targetRef>in_nodemapping</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_2">
+        <bpmn2:sourceRef>_DataOutput_3</bpmn2:sourceRef>
+        <bpmn2:targetRef>outcome</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" drools:priority="1" name="" sourceRef="Task_2" targetRef="UserTask_1"/>
+    <bpmn2:userTask id="UserTask_1" name="Present migration outcome">
+      <bpmn2:incoming>bpmn20:SequenceFlow_6</bpmn2:incoming>
+      <bpmn2:outgoing>bpmn20:SequenceFlow_7</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="_InputOutputSpecification_5">
+        <bpmn2:dataInput id="_DataInput_11" itemSubjectRef="ItemDefinition_4" name="TaskName"/>
+        <bpmn2:dataInput id="_DataInput_12" itemSubjectRef="ItemDefinition_5" name="Priority"/>
+        <bpmn2:dataInput id="_DataInput_13" itemSubjectRef="ItemDefinition_4" name="Comment"/>
+        <bpmn2:dataInput id="_DataInput_14" itemSubjectRef="ItemDefinition_4" name="GroupId"/>
+        <bpmn2:dataInput id="_DataInput_15" itemSubjectRef="ItemDefinition_6" name="Skippable"/>
+        <bpmn2:dataInput id="_DataInput_16" itemSubjectRef="ItemDefinition_4" name="Content"/>
+        <bpmn2:dataInput id="_DataInput_17" itemSubjectRef="ItemDefinition_4" name="Locale"/>
+        <bpmn2:dataInput id="migration_outcome" itemSubjectRef="ItemDefinition_4" name="migration_outcome"/>
+        <bpmn2:inputSet id="_InputSet_8">
+          <bpmn2:dataInputRefs>migration_outcome</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:inputSet id="_InputSet_9" name="New Input Set">
+          <bpmn2:dataInputRefs>_DataInput_11</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_12</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_13</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_14</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_15</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_16</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>_DataInput_17</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="_OutputSet_8"/>
+        <bpmn2:outputSet id="_OutputSet_9" name="Output Set"/>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_11">
+        <bpmn2:targetRef>_DataInput_11</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_1">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_2">migration-outcome</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_1">_DataInput_11</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_12">
+        <bpmn2:targetRef>_DataInput_12</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_13">
+        <bpmn2:targetRef>_DataInput_13</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_14">
+        <bpmn2:targetRef>_DataInput_14</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_15">
+        <bpmn2:targetRef>_DataInput_15</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_16">
+        <bpmn2:targetRef>_DataInput_16</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="_DataInputAssociation_17">
+        <bpmn2:targetRef>_DataInput_17</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_1">
+        <bpmn2:sourceRef>outcome</bpmn2:sourceRef>
+        <bpmn2:targetRef>migration_outcome</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+      <bpmn2:potentialOwner id="PotentialOwner_1">
+        <bpmn2:resourceAssignmentExpression id="ResourceAssignmentExpression_1">
+          <bpmn2:formalExpression id="FormalExpression_15">#{initiator}</bpmn2:formalExpression>
+        </bpmn2:resourceAssignmentExpression>
+      </bpmn2:potentialOwner>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" drools:priority="1" name="" sourceRef="UserTask_1" targetRef="EndEvent_2"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Process instance migration">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="process-migration.processmigration">
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="processStartEvent">
+        <dc:Bounds height="30.0" width="30.0" x="10.0" y="165.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_1" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="210.0" y="155.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="396.0" y="308.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_2" bpmnElement="EndEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="1120.0" y="163.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_1" bpmnElement="Task_1">
+        <dc:Bounds height="50.0" width="110.0" x="60.0" y="155.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ScriptTask_1" bpmnElement="ScriptTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="259.0" y="301.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_2" bpmnElement="ExclusiveGateway_2" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="297.0" y="155.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_3" bpmnElement="Task_3">
+        <dc:Bounds height="50.0" width="110.0" x="368.0" y="90.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ExclusiveGateway_3" bpmnElement="ExclusiveGateway_3" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="670.0" y="155.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_2" bpmnElement="UserTask_2">
+        <dc:Bounds height="50.0" width="110.0" x="520.0" y="90.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_2" bpmnElement="Task_2">
+        <dc:Bounds height="50.0" width="110.0" x="779.0" y="155.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_1" bpmnElement="UserTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="950.0" y="155.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="40.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="51.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="51.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="60.0" y="180.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_Task_1" targetElement="BPMNShape_ExclusiveGateway_1">
+        <di:waypoint xsi:type="dc:Point" x="170.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="210.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="210.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="210.0" y="180.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_ScriptTask_1">
+        <di:waypoint xsi:type="dc:Point" x="235.0" y="206.0"/>
+        <di:waypoint xsi:type="dc:Point" x="235.0" y="326.0"/>
+        <di:waypoint xsi:type="dc:Point" x="259.0" y="326.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_ScriptTask_1" targetElement="BPMNShape_EndEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="369.0" y="326.0"/>
+        <di:waypoint xsi:type="dc:Point" x="381.0" y="326.0"/>
+        <di:waypoint xsi:type="dc:Point" x="381.0" y="326.0"/>
+        <di:waypoint xsi:type="dc:Point" x="396.0" y="326.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_ExclusiveGateway_1" targetElement="BPMNShape_ExclusiveGateway_2">
+        <di:waypoint xsi:type="dc:Point" x="261.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="278.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="278.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="297.0" y="180.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_Task_2" targetElement="BPMNShape_UserTask_1">
+        <di:waypoint xsi:type="dc:Point" x="889.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="930.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="930.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="950.0" y="180.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_UserTask_1" targetElement="BPMNShape_EndEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="1060.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1103.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1103.0" y="181.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1120.0" y="181.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_8" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_Task_3">
+        <di:waypoint xsi:type="dc:Point" x="322.0" y="155.0"/>
+        <di:waypoint xsi:type="dc:Point" x="322.0" y="115.0"/>
+        <di:waypoint xsi:type="dc:Point" x="368.0" y="115.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_ExclusiveGateway_3" targetElement="BPMNShape_Task_2">
+        <di:waypoint xsi:type="dc:Point" x="721.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="759.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="759.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="779.0" y="180.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_ExclusiveGateway_2" targetElement="BPMNShape_ExclusiveGateway_3">
+        <di:waypoint xsi:type="dc:Point" x="348.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="515.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="515.0" y="180.0"/>
+        <di:waypoint xsi:type="dc:Point" x="670.0" y="180.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11" bpmnElement="SequenceFlow_11" sourceElement="BPMNShape_Task_3" targetElement="BPMNShape_UserTask_2">
+        <di:waypoint xsi:type="dc:Point" x="478.0" y="115.0"/>
+        <di:waypoint xsi:type="dc:Point" x="508.0" y="115.0"/>
+        <di:waypoint xsi:type="dc:Point" x="508.0" y="115.0"/>
+        <di:waypoint xsi:type="dc:Point" x="520.0" y="115.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="SequenceFlow_12" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_ExclusiveGateway_3">
+        <di:waypoint xsi:type="dc:Point" x="630.0" y="115.0"/>
+        <di:waypoint xsi:type="dc:Point" x="695.0" y="115.0"/>
+        <di:waypoint xsi:type="dc:Point" x="695.0" y="155.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
