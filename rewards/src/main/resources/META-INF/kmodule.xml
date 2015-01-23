@@ -1,0 +1,9 @@
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <kbase name="rewards" default="true" eventProcessingMode="stream" equalsBehavior="identity">
+    <ksession name="rewardsSession" type="stateful" default="true" clockType="realtime">
+      <workItemHandlers>
+        <workItemHandler type="new org.jbpm.process.instance.impl.demo.SystemOutWorkItemHandler()" name="Email"/>
+      </workItemHandlers>
+    </ksession>
+  </kbase>
+</kmodule>
