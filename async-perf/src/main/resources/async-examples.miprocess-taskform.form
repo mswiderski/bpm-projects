@@ -1,0 +1,14 @@
+
+<form id="1928881024">
+<property name="name" value="async-examples.miprocess-taskform.form"/>
+<property name="displayMode" value="default"/>
+<property name="status" value="0"/>
+<field position="0" name="loops" type="InputTextInteger" id="1104026278">
+<property name="fieldRequired" value="false"/>
+<property name="label" value="quot;enquot;,quot;Number of subprocessesquot;"/>
+<property name="readonly" value="false"/>
+<property name="outputBinding" value="loops"/>
+<property name="fieldClass" value="java.lang.Integer"/>
+</field>
+<dataHolder inputId="" name="#0000A0" type="basicType" outId="loops" value="java.lang.Integer" id="loops"/>
+</form>
