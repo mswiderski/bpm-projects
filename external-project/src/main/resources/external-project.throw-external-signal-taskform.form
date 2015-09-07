@@ -1,0 +1,14 @@
+
+<form id="2083829634">
+<property name="name" value="external-project.throw-external-signal-taskform.form"/>
+<property name="displayMode" value="default"/>
+<property name="status" value="0"/>
+<field position="0" name="SignalDeploymentId" type="InputText" id="699463670">
+<property name="fieldRequired" value="false"/>
+<property name="label" value="quot;enquot;,quot;SignalDeploymentId (SignalDeploymentId)quot;"/>
+<property name="readonly" value="false"/>
+<property name="outputBinding" value="SignalDeploymentId"/>
+<property name="fieldClass" value="java.lang.String"/>
+</field>
+<dataHolder inputId="" name="#0000A0" type="basicType" outId="SignalDeploymentId" value="java.lang.String" id="SignalDeploymentId"/>
+</form>
