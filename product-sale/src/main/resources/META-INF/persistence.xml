@@ -4,6 +4,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         <class>org.jbpm.test.ProductSale</class>
+        <class>org.drools.persistence.jpa.marshaller.MappedVariable</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
