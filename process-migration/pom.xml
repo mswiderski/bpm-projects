@@ -10,7 +10,7 @@
   <name>process-migration</name>
   
   <properties>
-    <jbpm.version>6.2.0-SNAPSHOT</jbpm.version>
+    <jbpm.version>6.4.0-SNAPSHOT</jbpm.version>
   </properties>
   
   <dependencies>

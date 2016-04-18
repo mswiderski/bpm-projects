@@ -136,6 +136,16 @@ public class MigrationManager {
 			
 			EntityManagerFactory emf = EntityManagerFactoryManager.get().getOrCreate(auditPu);
 			EntityManager em = emf.createEntityManager();
+	         // update variable instance log information with new deployment id and process id
+            Query varLogQuery = em.createQuery("update VariableInstanceLog set externalId = :depId, processId = :procId where processInstanceId = :procInstanceId");
+            varLogQuery
+                .setParameter("depId", processData.getToDeploymentId())
+                .setParameter("procId", processData.getToProcessId())
+                .setParameter("procInstanceId", processData.getProcessInstanceId());
+            
+            int varsUpdated = varLogQuery.executeUpdate();
+            logger.info("Variable instances updated = {} for process instance id {}", varsUpdated, processData.getProcessInstanceId());            
+			
 			// update node instance log information with new deployment id and process id
 			Query nodeLogQuery = em.createQuery("update NodeInstanceLog set externalId = :depId, processId = :procId where processInstanceId = :procInstanceId");
 			nodeLogQuery
@@ -156,6 +166,20 @@ public class MigrationManager {
 			
 			int pInstancesUpdated = pInstanceLogQuery.executeUpdate();
 			logger.info("Process instances updated = {} for process instance id {}", pInstancesUpdated, processData.getProcessInstanceId());
+
+			try {
+    	         // update task audit instance log with new deployment and process id
+                Query taskVarLogQuery = em.createQuery("update TaskVariableImpl set processId = :procId where processInstanceId = :procInstanceId");
+                taskVarLogQuery
+                    .setParameter("procId", processData.getToProcessId())
+                    .setParameter("procInstanceId", processData.getProcessInstanceId());
+                
+                int taskVarUpdated = taskVarLogQuery.executeUpdate();
+                logger.info("Task variables updated = {} for process instance id {}", taskVarUpdated, processData.getProcessInstanceId());
+			} catch (Throwable e) {
+                logger.warn("Cannot update task variables (added in version 6.3) due to {}", e.getMessage());
+            }
+
 			
 			// update task audit instance log with new deployment and process id
 			Query auditTaskLogQuery = em.createQuery("update AuditTaskImpl set deploymentId = :depId, processId = :procId where processInstanceId = :procInstanceId");
