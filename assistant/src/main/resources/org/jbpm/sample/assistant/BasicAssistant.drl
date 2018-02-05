@@ -1,0 +1,65 @@
+package org.jbpm.sample.assistant;
+
+import org.jbpm.sample.assistant.Question;
+
+rule "greetings" ruleflow-group "Assist"
+
+when 
+
+    $question : Question( answered == false, question.contains("hello") )
+
+then 
+
+    modify($question) {
+        setAnswered(true),
+        setAnswer("Hello, how are you?")
+    }
+    
+end 
+
+rule "what's your name" ruleflow-group "Assist"
+
+when 
+
+    $question : Question( answered == false, question.contains("name") )
+
+then 
+
+    modify($question) {
+        setAnswered(true),
+        setAnswer("My name is John, your personal assistant.")
+    }
+    
+end  
+
+rule "best place to eat" ruleflow-group "Assist"
+
+when 
+
+    $question : Question( answered == false, (question.contains("eat") || question.contains("food")) )
+
+then 
+
+    modify($question) {
+        setAnswered(true),
+        setAnswer("Best place to eat nearby is Mamma's Pizza! great pizza and pasta.")
+    }
+    
+end 
+
+
+rule "end conversation" ruleflow-group "Assist"
+
+when 
+
+    $question : Question( answered == false, question.contains("bye") )
+
+then 
+
+    modify($question) {
+        setAnswered(true),
+        setAnswer("Good bye")
+    }
+    
+end  
+
