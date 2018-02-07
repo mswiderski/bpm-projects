@@ -5,9 +5,21 @@
     <audit-mode>JPA</audit-mode>
     <persistence-mode>JPA</persistence-mode>
     <runtime-strategy>PER_PROCESS_INSTANCE</runtime-strategy>
-    <marshalling-strategies/>
+    <marshalling-strategies>
+        <marshalling-strategy>
+            <resolver>mvel</resolver>
+            <identifier>new org.jbpm.document.marshalling.DocumentMarshallingStrategy()</identifier>
+            <parameters/>
+        </marshalling-strategy>
+    </marshalling-strategies>
     <event-listeners/>
-    <task-event-listeners/>
+    <task-event-listeners>
+        <task-event-listener>
+            <resolver>mvel</resolver>
+            <identifier>new org.jbpm.extensions.notifications.impl.listeners.NotificationTaskEventListener()</identifier>
+            <parameters/>
+        </task-event-listener>
+    </task-event-listeners>
     <globals/>
     <work-item-handlers/>
     <environment-entries/>
